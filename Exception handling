@@ -1,0 +1,14 @@
+#捕获异样
+#try - except语句
+#try:
+    #<可能会引发异常的语句>
+#except[异常类型]
+    #<处理异常>
+i = input("请输入一个数字：")
+n = 8888
+try:
+    result = n / int(i)
+    print(result)
+    print("{0}除以{1}等于{2}".format(n,i,result))
+except (ZeroDivisionError,ValueError) as e:#捕获除0的异常和捕获整数转化异常  异常的合并
+    print("异常发生{}".format(e))
