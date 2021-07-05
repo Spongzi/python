@@ -1,0 +1,82 @@
+#列表list
+
+a=[100,'Hello',20]
+b=[100,200,300]
+print(a[0])
+#append方法是增加自己想要的东西在数组中
+a.append(80)
+print(a)
+#extend方法是增加上一个数组
+a.extend(b)
+print(a)
+#insert(i,x)是在找到i位置增加自己想要的x数据
+a.insert(3,'nb')
+print(a)
+#想要替换元素直接更改
+a[1]='sb'
+print(a)
+#remove方法如果找到匹配的元素则删除如果一个数组中有多个匹配的数组则删除第一个
+a.remove(80)
+print(a)
+
+#-------------------------元组tuple---------------------
+#tuple(iterable)  iterable可以是字符串可以使列表可以是元组集合和字典
+#也可以直接（元素1，元素2，元素3...)小括号可以省
+
+s_id,s_name = (102,'张三')
+print(s_id)
+print(s_name)
+
+#------------------集合----------------
+#可以使用set函数定义或者直接用{}表示
+#序列打印出来是无序的，并且在集合中不会出现相同的元素
+
+c=set('Hello')
+print(c)
+c={10,10,20,30,20,40,50,30}
+print(c)
+#add()添加元素，如果集合中元素已经存在则不能添加，不会抛出问题
+c.add(29)
+print(c)
+#remove()删除元素，如果元素不存在则会报错
+c.remove(29)
+print(c)
+#c.remove(90)
+#print(c)
+#clear()清除集合
+c.clear()
+print(c)
+
+
+#----------------------字典dict---------------
+#创建字典dict函数
+#{key1:value1,key2:value2...}键值用：连接，键值对之间用‘，’隔开
+d1=dict({102:'张三',105:'李四'})
+#dict(zip([102,105]),['张三','李四'])
+#{102:'张三',105:'李四'}
+
+
+
+#items():返回字典的所有键值对视图
+print(d1.items())
+#keys():返回字典键视图
+d=d1.keys()
+print(d)
+print(list(d))
+#values():返回字典视图
+d2=d1.values()
+print(d2)
+print(list(d2))
+
+#遍历字典
+xh={912:'suxu',913:'sb'}
+print('遍历键')
+for x in xh.keys():
+    print("学号: "+str(x))
+print('遍历值')
+for h in xh.values():
+    print("name: "+str(h))
+print('遍历键和值')
+for x,h in xh.items():
+    print("学号：{0} - 学生：{1}".format(x,h))
+
