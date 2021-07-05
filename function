@@ -1,0 +1,125 @@
+#定义函数
+#def 函数名称(形式参数列表)：
+#   函数体
+#   return 返回值
+def rect_area(width,height):
+    area = width * height
+    return area
+
+def printf_area(width,height):
+    area = width * height
+    print("{0}×{1}长方体面积：{2}".format(width,height,area))
+#调用函数 可以使用关键词调用
+r_area = rect_area(width=320,height=480)
+print("{0}×{1}长方体面积：{2}".format(320,480,r_area))
+printf_area(320,480)
+r_area = rect_area(height=480,width=320)
+print("{0}×{1}长方体面积：{2}".format(320,480,r_area))
+
+#参数默认值
+def make_coffee(name="卡布奇诺"):
+    return "制作一杯{0}咖啡。".format(name)
+coffee1 = make_coffee("拿铁")
+coffee2  = make_coffee()
+print(coffee2)
+print(coffee1)
+
+
+#基于元组的可变参数(*可变参数)
+def sum(*numbers):
+    total = 0.0
+    for number in numbers:
+        total += number
+    return total
+print(sum(100.0,20.0,30.0))
+print(sum(30.0,80.0))
+
+#基于字典的可变参数(**可变参数)
+def show_info(**info):
+    print("-----show_info-----")
+    for key , value in info.items():#items()返回字典所有键值
+        print("{0} - {1}".format(key,value))
+show_info(name = "Tony",age = 18,sex=True)
+show_info(sutdent_name = "Tony",sutdent_no = '1000')
+
+#局部变量和全局变量，作用域为整个模块的是全局变量，作用于某一个函数的变量是局部变量
+#创建一个全局变量
+x=20
+
+def print_value():
+    x=10#这个属于局部变量
+    print("函数中x= {}".format(x))
+
+print_value()
+print("全局变量x={0}".format(x))
+#如果在函数中声明global，则这个局部变量会被升级为全局变量，所以一般情况下我们最好不要将全局变量和局部变量为一个名字
+#创建一个全局变量
+x=20
+
+def print_value():
+    global x #将函数中的x变量提升为全局变量
+    x=10
+    print("函数中x= {}".format(x))
+
+print_value()
+print("全局变量x={0}".format(x))
+
+#函数类型
+def add(a,b):
+    return a+b#返回两个数字之和
+def sub(a,b):
+    return a-b#返回两个数字之差
+#定义减法函数
+def calc(opr):
+    if opr == "+":
+        return add
+    else:
+        return sub
+f1 = calc("+")#f1实际返回值为add
+f2 = calc('-')#f2实际返回值为sub
+print(type(f1))
+print('10 + 5 = {0}'.format(f1(10,5)))
+print('10 - 5 = {0}'.format(f2(10,5)))
+
+#filter()函数用于对容器中的元素进行过滤处理
+#filter()函数的用法filter(function,iterable)
+#其中function是一个提供过滤条件的函数，返回布尔值
+#参数iterable是容器类型的数据。
+def  f1(x):
+    return x>50
+data1 = [66,15,91,28,98,50,7,80,99]
+filtered = filter(f1,data1)
+data2 = list(filtered)#将filtered转换为链表
+print(data2)
+#filter()函数返回值并不是列表，如果需要返回列表类型的数据，则还需要通过list()函数进行转换
+
+
+#映射函数map()
+#map函数用于对容器中的元素进行映射(或者变换)
+#语法如下
+#map(function,iterable)
+#其中function是一个提供过滤条件的函数，返回布尔值
+#参数iterable是容器类型的数据。
+def f1(x):
+    return x*2
+
+data1 = [66,15,91,28,98,50,7,80,99]
+filtered = map(f1,data1)
+data2 = list(filtered)#将filtered转换为链表
+print(data2)
+
+#lambda函数
+#在python中使用lambda关键词定义匿名函数
+#匿名函数就是没有函数名称的函数
+#语法如下
+#lambda 参数列表 : lambda体
+def calc(opr):
+    if opr == "+":
+        return lambda a,b:(a + b)
+    else:
+        return lambda a,b:(a - b)
+f1 = calc("+")
+f2 = calc('-')
+print(type(f1))
+print('10 + 5 = {0}'.format(f1(10,5)))
+print('10 - 5 = {0}'.format(f2(10,5)))
