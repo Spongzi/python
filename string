@@ -1,0 +1,61 @@
+print("hello \n world")
+s = r'hello \n world' #r代表着使用的原始字符所有的\n或者\t都不可以使用
+print(s)
+
+#定义长字符串可以使用"""XXXXXXX"""
+s = """
+    《早发白帝城》
+朝辞白帝彩云间，千里江陵一日还。
+两岸猿声啼不住，轻舟已过万重山。
+"""
+print(s)
+
+#字符串可以通过int（）或者float（）实现转换成数字，转化成功返回数字否则引发异常。
+a="AB"
+print(int(a,16))#表示用16进制来转换
+
+#可以用str实现数字转化成字符串
+a=str(123)
+print(a)
+print(type(a))
+
+#可以使用format方法进行格式化字符串
+#要想将表达式的计算结果插入到字符串中，需要使用占位符，对于占位符，使用一对大括号表示
+i=32
+s="i*i={}".format(i*i)
+print(s)
+s="{0}*{0}={1}".format(i,i*i)
+print(s)
+
+#格式化控制符
+money=5834.5678
+name="Tony"
+print("{0:s}年龄{1:d},工资是{2:g}元".format(name,20,money))
+#g可以代表十进制整数型或者浮点型
+
+#字符串find方法可以用于查找子字符串
+#如果字符串中没有这个字符，那么返回值为-1
+s_str="Hello World"
+print(s_str.find("e"))
+print(s_str.find('m'))
+
+#字符串替换，则可以使replace(old,new[,count])
+#count参数代表替换old子字符串个数，如果省略count则是全部替代
+text = "AB CD EF GH HJ"
+a=text.replace(' ','|',2)
+print(a)
+a=text.replace(' ','|')
+print(a)
+#字符串的分割split()
+#split(sep=None,maxsplit=-1)表示sep子字符串分割字符串str，maxsplit最大分割次数，省略则代表不限制分割字数
+a=text.split(" ")
+print(a)
+a=text.split(' ',maxsplit=2)
+print(a)
+
+s="hello world"
+print(s[-5:])
+#::用于建立列表逆序
+print("world"[::-1])
+s='python'
+print("{0:3}".format(s))
