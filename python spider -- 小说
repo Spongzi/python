@@ -10,7 +10,8 @@ def get_title(wz):
     content = texts.text.strip().split('\xa0'*4)
     return content
 if __name__ == '__main__':
-    url = 'https://book.qidian.com/info/1027339371#Catalog'
+    url = 'https://www.xxbiquge.net/15_15338/'
+    sever = 'https://www.xxbiquge.net'
     get_wz = requests.get(url = url)
     get_wz.encoding = 'utf-8'
     get_wznr = get_wz.text
