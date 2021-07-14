@@ -1,0 +1,100 @@
+# 1.获取songid
+# 2.获取purl
+# 使用这个访问
+# https://c.y.qq.com/soso/fcgi-bin/client_search_cp?p=1&n=10&w=%E6%98%9F%E8%BE%B0%E5%A4%A7%E6%B5%B7
+# "songid": 316637836,
+# "songmid": "003NdpTl14H3HC",
+# "media_mid": "003NdpTl14H3HC",
+# purl: "C400003NdpTl14H3HC.m4a?guid=9412159547&vkey=61B99FFCC9686AA2B93A0230A51D51D8C03F98367F8B767EA9DA207151AB3A74F53EDEBE45D1394286703AB22075B610ED406AC87983E320&uin=2505555231&fromtag=66"
+# vkey: "61B99FFCC9686AA2B93A0230A51D51D8C03F98367F8B767EA9DA207151AB3A74F53EDEBE45D1394286703AB22075B610ED406AC87983E320"
+import requests
+import json
+import re
+from bs4 import BeautifulSoup
+
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0"}
+
+def music_name(wy): #获取歌曲的名字
+    url = wy
+    name_url = requests.get(url)
+    # print(f_url.status_code)
+    name_url.encoding = 'utf-8'
+    name1_url = name_url.text
+    r = BeautifulSoup(name1_url, 'lxml')
+    r_findall = r.find_all("div",class_="data__name")
+    r_re_findall = re.compile(r'<h1 class="data__name_txt" title="(.*)"')
+    for item1 in r_findall:
+        item1 = str(item1)
+        r_name = re.findall(r_re_findall,item1)[0]
+        return r_name
+url = 'https://y.qq.com/'
+f_url = requests.get(url)
+# print(f_url.status_code)
+f_url.encoding = 'utf-8'
+text_url = f_url.text
+text_url = BeautifulSoup(text_url,'lxml')
+new_music = re.compile(r'<a href="(.*?)">')
+music_http = text_url.find_all("h3",class_="debutlist__song")
+set_name = list()
+for item in music_http:
+    item = str(item)
+    music_wy = re.findall(new_music,item)[0]
+    music_wy1 = "https://y.qq.com"
+    wy = music_wy1+music_wy
+    # print(wy)
+    # print(music_name(wy))
+    set_name.append(music_name(wy))
+
+
+
+def getsongmid(name):
+    url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp?p=1&n=1&w=%s" %name
+    res = requests.get(url=url, headers=headers)
+    html = res.text
+    h_dict = html[9:-1]
+    h_dict = json.loads(h_dict)  # 利用json模块来转换成字符串形式
+    # print(h_dict)
+    # 获取songmid
+    need_info = []
+    song_list = h_dict["data"]["song"]["list"]
+    for song_info in song_list:
+        songmid = song_info["songmid"]
+        songname = song_info["songname"]
+        # 通过元组储存
+        need_info.append((songmid, songname))
+    print("获取成功信息：", need_info)
+    return need_info
+
+
+def getsongpurl(need_info):
+    for song_info in need_info:
+        songmid = song_info[0]
+        songname = song_info[1]
+    P_purl = 'https://u.y.qq.com/cgi-bin/musicu.fcg?data={"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"4533292411","songmid":["%s"],"songtype":[0],"uin":"2505555231","loginflag":1,"platform":"20"}},"comm":{"uin":2505555231,"format":"json","ct":24,"cv":0}}' % (
+        songmid)
+    res = requests.get(url=P_purl, headers=headers)
+    html = res.text
+    keyjs = json.loads(html)
+    # print(keyjs)
+    purl = keyjs["req_0"]["data"]["midurlinfo"][0]["purl"]
+    m4aurl = 'http://dl.stream.qqmusic.qq.com/' + purl
+    return m4aurl
+
+def dow_music(m4aurl):
+    # print(m4aurl)
+    for song_info in need_info:
+        songname = song_info[1]
+    data = requests.get(url = m4aurl).content
+    with open("E:\\爬虫的学习\\music\\{}.mp3".format(songname),"wb")as f:
+        f.write(data)
+
+
+# need_info = getsongmid()
+# getsongpurl(need_info)
+
+print(len(set_name))
+for i in range(len(set_name)):
+    need_info = getsongmid(set_name[i])
+    m4aurl = getsongpurl(need_info)
+    dow_music(m4aurl)
+    print("正在下载",i+1)
